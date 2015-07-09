@@ -1,4 +1,4 @@
-#dhueduh
+
 true_alpha <- function(co, #the p by p covariance matrix 
                    bet, #a list specifying the beta coefficients for each treatment group
                    pro, #pi k n_k/N#pi k star (n_k-1)/N
