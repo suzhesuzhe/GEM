@@ -7,6 +7,16 @@ Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: What license is it under?
-Imports: plyr,
+Imports:
+    plyr,
     MASS,
-    ggplot2
+    ggplot2,
+    Rcpp,
+    RcppArmadillo
+LinkingTo: Rcpp,RcppArmadillo
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+RoxygenNote: 5.0.1
+VignetteBuilder: knitr

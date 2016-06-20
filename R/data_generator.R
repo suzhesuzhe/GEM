@@ -1,0 +1,189 @@
+#' Functions for Simulating Data Set 
+#' @name data_generators
+#' @import MASS
+#' 
+#' @description When investigating properties of GEM, following three data generators are widely used in various simulations. 
+#' They are aimed at constructing three specific types of data set for only two treatment groups. 
+#' 
+#' @param d A scalar indicating the effect size 
+#' @param R2 A scalar indicating the proportion of explained variance \eqn{R^2} for the entire data set
+#' @param v2 A scalar indicating the proportion of explained variance \eqn{R^2} for the first treatment group
+#' @param n A scalar indicating the number of observation for each treatment group, we assume two treatment group have same observations
+#' @param co A p by p positive semidefinite matrix indicating the covariance structure of covariates
+#' @param beta1 A vector of length p recording covariate coefficients for the first treatment group
+#' @param bet A two element list of legnth p vectors recording covariate coefficients for two treatment groups respectively
+#' @param inter A vector of length 2 recording the intercept \eqn{a_1,a_2} for two treatment groups respectively
+#' 
+#' @details The first data generator is used to create a data where the response is a linear model of the covariates \deqn{y_i = a_i + X\beta_i + \epsilon, i = 1,2}  
+#' and the coffcicients of covariates \eqn{\beta} are proportional between two treatment groups: \eqn{\beta_2 = s*\beta_1}. 
+#' This type of data set matches perfectly with the motivation of GEM algorithm. \eqn{\beta_1} is set as an argument of the function while\eqn{\beta_2 = s*\beta_1}
+#' is derived by controling R squared of the whole data and the effect size (see Kraemer, Helena Chmura. "Discovering, comparing, 
+#' and combining moderators of treatment on outcome after randomized clinical trials: a parametric approach." Statistics in medicine 32.11 (2013): 1964-1973.)
+#'
+#' The second data generator similar to the first one except that the coefficients of covariates are not necessarily proportional. Hence two \eqn{\beta}'s 
+#' should be specified as argument of function.
+#' 
+#' The third data generator is aimed at constructing testing data set for a trained GEM model. This data generator is similar to data generator2 
+#' except that  the linear model has no error term \deqn{y_i = a_i + X\beta_i, i = 1,2}.
+#'
+#' @return Output of these two functions for the data generator under Gem case is not the same,
+#' and you can find explanation for each of them in the following:
+#' 
+#' For the function \code{data_generator1}
+#' \enumerate{
+#' 		\item \code{dat} A dataframe with first and second column as treatment group index	and response respectively,
+#'   and each of the remaining columns as a covariate.
+#' 		\item \code{bet} A two elements list of length p vectors recording covariate coefficients for two treatment group respectively
+#' 		\item \code{error_12} A vector of length three represeting the standard deviation of \eqn{\epsilon}, the explained variance by the linear part for the first 
+#'   and second treatment group respectively. 
+#' }
+#' 
+#' For the function \code{data_generator2}
+#' \enumerate{
+#'   \item \code{dat} A dataframe with first and second column as treatment group index	and response respectively,
+#'   and each of the remaining columns as a covariate.
+#' 		\item \code{bet} A two elements list of length p vectors recording covariate coefficients for two treatment group respectively
+#' 		\item \code{error} A scalar represeting the standard deviation of \eqn{\epsilon} 
+#' }
+#'
+#' For the function \code{data_generator3}
+#' \enumerate{
+#' 		\item \code{y0} Response for each observation under the first treatment assignment
+#' 		\item \code{y1} Response for each observation under the second treatment assignment
+#' 		\item \code{X} Design matrix for the covariates 
+#' 		\item \code{oracle} Average of the response if each observation take the optimal treatment assignment
+#' 		\item \code{invOracle} Average of the response if each observation not to take the optimal treatment assignment
+#' } 
+#' @examples
+#' #constructing the covariance matrix
+#' co <- matrix(0.2, 30, 30)
+#' diag(co) <- 1
+#' dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, co = co, beta1 = rep(1,30),inter = c(0,0))
+#' #check the R squared of the simluated data set
+#' dat <- dataEx[[1]]
+#' summary(lm(V2~factor(trt)*(V3+V4+V5+V6+V7+V8+V9+V10+V11+V12
+#' +V13+V14+V15+V16+V17+V18+V19+V20+V21+V22+V23+V24+V25+V26+V27+V28+V29+V30+V31+V32),data=dat))
+#' 
+#' bigData <- data_generator3(n = 10000,co = co,bet =dataEx[[2]], inter = c(0,0))
+#' @export
+
+data_generator1 <- function(d,    #effect size for the data set
+                            R2,          # r square for the data set
+					                       v2,          #the SSR for treatment group 1
+                            n,           # number of observation for each treatment group
+                            co,          # here co is a matrix rather than a list, which assume that all treatment group's design matrix have the same covariance
+                            beta1,       #the coefficient of beta1
+                            inter)       #the intercept for each treatment group
+
+    
+{
+	    a2 = a0 = 2*d^2+(2-2*R2)*v2*d^2/R2 -1
+	    a1 = 2
+
+    	b  = (-a1 + sqrt(a1^2 - 4*a0*a2))/2/a2
+    	s = 0.5*(1+b^2)*v2*(1-R2)/R2
+    
+    	temp <- v2/(t(beta1) %*% co %*% beta1)
+	
+    	bet <- vector("list",2)#Here we create this list for the mod3 below
+
+    	beta1 <- beta1 * sqrt(temp)
+	    beta2 <- beta1 * b
+	    bet[[1]] <- beta1
+    	bet[[2]] <- beta2
+	
+     X <- vector("list",2)#Here we create this list for the mod3 below
+    
+     X[[1]] <- x1 <- mvrnorm(n,rep(0,ncol(co)),co)
+	    X[[2]] <- x2 <- mvrnorm(n,rep(0,ncol(co)),co)
+
+     Y <- vector("list",2)#Here we create this list for the mod3 below
+     Y[[1]] <- y1 <- x1 %*% beta1 + matrix(rnorm(n)*sqrt(s),n,1) + inter[1]
+     Y[[2]] <- y2 <- x2 %*% beta2 + matrix(rnorm(n)*sqrt(s),n,1) + inter[2]
+    
+    
+     trt1<- matrix(0,n,1)
+     trt2<- matrix(1,n,1)
+    
+     dat1 <- as.matrix(cbind(y1,x1))
+     dat2 <- as.matrix(cbind(y2,x2))
+     dat <- as.data.frame(rbind(cbind(trt1,dat1), cbind(trt2,dat2)))
+	    colnames(dat)[1] <- "trt"
+	
+     results <- list("dat" = dat,                    
+                     "bet" = bet,
+                     "error_12" = c(sqrt(s),t(beta1) %*% co %*% beta1,t(beta2) %*% co %*% beta2))   
+     return(results)
+}
+
+
+#' @name data_generators
+#' @export
+
+data_generator2 <- function(n,    #A number specifying the number of observation for each group
+                            co,   #co is the covariate covariance that is identical between treatment groups
+                            r,    #A scalar specifying the proportion of variance explained (R^2) 
+                                  #by the predictors, same in all groups
+                            bet,  #A two element list of legnth p vectors recording covariate coefficients for two treatment groups respectively
+                            inter) #Vector of treatment groups' intercepts
+{    
+	bet1 <- as.matrix(bet[[1]])
+	bet2 <- as.matrix(bet[[2]])
+	
+    X <- vector("list",2)#Here we create this list for the mod3 below
+    
+    X[[1]] <- x1 <- mvrnorm(n,rep(0,ncol(co)),co)
+   	X[[2]] <- x2 <- mvrnorm(n,rep(0,ncol(co)),co)
+    
+   	s2 <- 0.5 * (1/r-1) * (t(bet1) %*% co %*% bet1 + t(bet2) %*% co %*% bet2)
+	
+    y1 <- x1 %*% bet1 + matrix(rnorm(n)*sqrt(s2),n,1) + inter[1]
+    y2 <- x2 %*% bet2 + matrix(rnorm(n)*sqrt(s2),n,1) + inter[2]
+    
+    
+    trt1<- matrix(0,n,1)
+    trt2<- matrix(1,n,1)
+    
+    dat1 <- as.matrix(cbind(y1,x1))
+    dat2 <- as.matrix(cbind(y2,x2))
+    dat <- as.data.frame(rbind(cbind(trt1,dat1), cbind(trt2,dat2)))
+    colnames(dat)[1] <- "trt"
+    results <- list("dat" = dat,                  
+                    "bet" = bet,
+             				   "error" = c(sqrt(s2))) 
+   return(results)
+}
+
+
+
+
+#' @name data_generators
+#' @export
+#' 
+data_generator3 <- function(n,     #the number of oberservations
+                            co,    #co is the covariate covariance that is identical between treatment groups
+                            bet,   #A two element list of legnth p vectors recording covariate coefficients for two treatment groups respectively
+                            inter) #Vector of treatment groups' intercepts
+{
+    p <- ncol(co) #The number of predictors
+    
+	   bet0 <- bet[[1]]
+   	bet1 <- bet[[2]]
+	
+   	X <- as.matrix(mvrnorm(n,rep(0,ncol(co)),co))
+
+    y0 <- as.matrix(X %*% bet0 + inter[1])
+    y1 <- as.matrix(X %*% bet1 + inter[2])
+   	optTrt <- y0<=y1
+   	oracle <- sum(y0*(1-optTrt)+y1*optTrt)/length(optTrt)
+   	inv_oracle <- sum(y0*optTrt+y1*(1-optTrt))/length(optTrt)
+    
+    results <- list("y0" = y0,                  #1
+                    "y1" = y1,                  #2
+                    "X" = X,                    #3
+               					"oracle"=oracle,            #4
+   				            	"invOracle" = inv_oracle)   #5
+    return(results)
+}
+
+ 
