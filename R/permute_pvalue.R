@@ -39,7 +39,7 @@ permute_pvalue <- function(dat,method)
     {
         datt <- dat
     	datt[,1] <- sample(dat$trt)
-        mmm <- gem_fit(datt,type)
+        mmm <- gem_fit(datt,method)
         p <- c(p, mmm[[3]])        
     }
     p_value <- sum(p[2:1001] <= p[1])/1000
