@@ -1,6 +1,3 @@
-
-
-
 #' Effect Size Calculation
 #' @name effectSize
 #' 

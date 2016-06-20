@@ -39,8 +39,6 @@
 #' model_de <- gem_fit(dat = dat, method = "de")
 #' model_F <- gem_fit(dat = dat, method = "F")
 #' @export
-
-
 gem_fit <- function(dat, method) 
 {
        colnames(dat)[1:2] <- c("trt","y")

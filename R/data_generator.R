@@ -1,5 +1,4 @@
 #' Functions for Simulating Data Set 
-#' @name data_generators
 #' @import MASS
 #' 
 #' @description When investigating properties of GEM, following three data generators are widely used in various simulations. 
@@ -65,6 +64,7 @@
 #' +V13+V14+V15+V16+V17+V18+V19+V20+V21+V22+V23+V24+V25+V26+V27+V28+V29+V30+V31+V32),data=dat))
 #' 
 #' bigData <- data_generator3(n = 10000,co = co,bet =dataEx[[2]], inter = c(0,0))
+#' @name data_generator1
 #' @export
 
 data_generator1 <- function(d,    #effect size for the data set
@@ -117,7 +117,7 @@ data_generator1 <- function(d,    #effect size for the data set
 }
 
 
-#' @name data_generators
+#' @name data_generator2
 #' @export
 
 data_generator2 <- function(n,    #A number specifying the number of observation for each group
@@ -157,7 +157,7 @@ data_generator2 <- function(n,    #A number specifying the number of observation
 
 
 
-#' @name data_generators
+#' @name data_generator3
 #' @export
 #' 
 data_generator3 <- function(n,     #the number of oberservations
