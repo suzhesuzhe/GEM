@@ -32,7 +32,7 @@ permute_pvalue <- function(dat,method)
 	K <- length(unique(dat$trt))
     dat[,1] <- factor(dat[,1],labels=c(1:K))
     N <- ddply(dat, .(trt), nrow)[,2]
-    mm <- gem_fit(dat,type)
+    mm <- gem_fit(dat,method)
     p <- mm[[3]]
   
     for(i in 1:1000)
