@@ -3,9 +3,12 @@
 \name{gem_test}
 \alias{gem_test}
 \alias{gem_test_insample}
+\alias{gem_test_outsample}
 \title{Implement Fitted GEM criterior on a Data Set}
 \usage{
 gem_test_insample(dat, gemObject)
+
+gem_test_outsample(y0, y1, XFrame, gemObject)
 }
 \arguments{
 \item{dat}{Dataframe with first column as the treatment index, second column as response, and the 
@@ -13,11 +16,11 @@ remaining columns as covariates design matrix.}
 
 \item{gemObject}{Object as the second element of the ouput list from gem_fit function}
 
-\item{XFrame}{Design matrix for the predictors of the out-of-sample data set}
-
 \item{y0}{Response for each observation under the first treatment assignment}
 
 \item{y1}{Response for each observation under the second treatment assignment}
+
+\item{XFrame}{Design matrix for the predictors of the out-of-sample data set}
 }
 \value{
 \code{PAB_gem} Population average benefit based on the treatment regime from the GEM fit

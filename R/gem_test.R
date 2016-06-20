@@ -36,9 +36,6 @@
 #' bigData <- data_generator3(n = 10000,co = co,bet =dataEx[[2]], inter = c(0,0)) 
 #' gem_test_outsample(bigData[[1]],bigData[[2]],bigData[[3]],model_nu[[2]])
 #' @export
-
-#' @rdname gem_test_insample
-#' @export
 gem_test_insample<- function(dat, gemObject)
 {
 
@@ -73,7 +70,7 @@ gem_test_insample<- function(dat, gemObject)
 	
 }
 
-#' @rdname gem_test_outsample
+#' @name gem_test
 #' @export
 gem_test_outsample <- function(y0, y1,XFrame, gemObject)
 {
