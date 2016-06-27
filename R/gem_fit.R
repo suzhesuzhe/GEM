@@ -14,7 +14,7 @@
 #' remaining columns as covariates design matrix. 
 #' @param method Choice of criterior on which the GEM is based. This can be a string in 
 #' \code{c("nu","de","F")}, which corresponde to the numerator, denominator and F-statistics
-#' methods respectively.
+#' methods respectively. The default method is the F-statistics method.
 
 #' @return 
 #' \enumerate{
@@ -39,7 +39,7 @@
 #' model_de <- gem_fit(dat = dat, method = "de")
 #' model_F <- gem_fit(dat = dat, method = "F")
 #' @export
-gem_fit <- function(dat, method) 
+gem_fit <- function(dat, method = "F") 
 {
        colnames(dat)[1:2] <- c("trt","y")
        k <- length(unique(dat$trt))

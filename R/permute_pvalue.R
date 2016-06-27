@@ -8,7 +8,7 @@
 #' remaining columns as covariates design matrix. 
 #' @param method Choice of criterior on which the GEM is based. This can be a string in 
 #' \code{c("nu","de","F")}, which corresponde to the numerator, denominator and F-statistics
-#' methods respectively.
+#' methods respectively. The default method is the F-statistics method.
 #' 
 #' 
 #' @return \code{eff_size} the calculated permuted p value for the data and choosen criterior 
@@ -21,11 +21,11 @@
 #' dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, co = co, beta1 = rep(1,10),inter = c(0,0))
 #' #fit the GEM
 #' dat <- dataEx[[1]]
-#' pvalue_permuteCpp(dat,"nu")
+#' pvalue_permuteCpp(dat,method = "nu")
 #' @export
 
 
-permute_pvalue <- function(dat,method)
+permute_pvalue <- function(dat,method = "F")
 {
     
     colnames(dat)[1] <- "trt"
