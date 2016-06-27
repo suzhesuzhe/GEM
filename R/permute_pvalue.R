@@ -18,8 +18,9 @@
 #' #constructing the covariance matrix
 #' co <- matrix(0.2, 10, 10)
 #' diag(co) <- 1
+#' #simulate a data set
 #' dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, co = co, beta1 = rep(1,10),inter = c(0,0))
-#' #fit the GEM
+#' #calculate the permuted p value
 #' dat <- dataEx[[1]]
 #' pvalue_permuteCpp(dat,method = "nu")
 #' @export

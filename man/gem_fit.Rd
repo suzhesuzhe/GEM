@@ -4,7 +4,7 @@
 \alias{gem_fit}
 \title{GEM Fit}
 \usage{
-gem_fit(dat, method)
+gem_fit(dat, method = "F")
 }
 \arguments{
 \item{dat}{Dataframe with first column as the treatment index, second column as response, and the 
@@ -12,7 +12,7 @@ remaining columns as covariates design matrix.}
 
 \item{method}{Choice of criterior on which the GEM is based. This can be a string in 
 \code{c("nu","de","F")}, which corresponde to the numerator, denominator and F-statistics
-methods respectively.}
+methods respectively. The default method is the F-statistics method.}
 }
 \value{
 \enumerate{

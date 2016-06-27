@@ -4,7 +4,7 @@
 \alias{permute_pvalue}
 \title{Permuted P Value Calculation}
 \usage{
-permute_pvalue(dat, method)
+permute_pvalue(dat, method = "F")
 }
 \arguments{
 \item{dat}{Dataframe with first column as the treatment index, second column as response, and the 
@@ -12,7 +12,7 @@ remaining columns as covariates design matrix.}
 
 \item{method}{Choice of criterior on which the GEM is based. This can be a string in 
 \code{c("nu","de","F")}, which corresponde to the numerator, denominator and F-statistics
-methods respectively.}
+methods respectively. The default method is the F-statistics method.}
 }
 \value{
 \code{eff_size} the calculated permuted p value for the data and choosen criterior
@@ -24,9 +24,10 @@ Calculation of permuted p value for a fitted GEM.
 #constructing the covariance matrix
 co <- matrix(0.2, 10, 10)
 diag(co) <- 1
+#simulate a data set
 dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, co = co, beta1 = rep(1,10),inter = c(0,0))
-#fit the GEM
+#calculate the permuted p value
 dat <- dataEx[[1]]
-pvalue_permuteCpp(dat,"nu")
+pvalue_permuteCpp(dat,method = "nu")
 }
 
