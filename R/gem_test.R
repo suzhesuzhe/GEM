@@ -67,7 +67,7 @@ gem_test_insample<- function(dat, gemObject)
 	result <- list(
 		"PAB_gem" = PAB_gem,
 		"PAB_unres" = PAB_unres,
-		"opt_gem" = optTrt_gem[,2])
+		"opt_gem" = optTrt_gem)
 	return(result)
 	
 }
@@ -100,7 +100,7 @@ gem_test_outsample <- function(y0, y1,XFrame, gemObject)
 	result <- list(
 		"PAB_gem" = PAB_gem,
 		"PAB_unres" = PAB_unres,
-		"opt_gem" = optTrt_gem[,2])
+		"opt_gem" = optTrt_gem)
 	return(result)
 	
 }
