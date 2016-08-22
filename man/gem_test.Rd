@@ -26,6 +26,8 @@ remaining columns as covariates design matrix.}
 \code{PAB_gem} Population average benefit based on the treatment regime from the GEM fit
 
 \code{PAB_unres} Population average benefit based on on restricted linear model
+
+\code{opt_gem} The optimal treatment assignment for each observation
 }
 \description{
 Implement a fitted GEM on a testing dataset, calculate the population average benefit

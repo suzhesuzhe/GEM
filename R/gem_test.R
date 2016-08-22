@@ -19,7 +19,8 @@
 #'  
 #' @return \code{PAB_gem} Population average benefit based on the treatment regime from the GEM fit
 #' @return \code{PAB_unres} Population average benefit based on on restricted linear model
-#' 
+#' @return \code{opt_gem} The optimal treatment assignment for each observation
+
 #' @examples
 #' #constructing the covariance matrix
 #' co <- matrix(0.2, 10, 10)
@@ -65,7 +66,8 @@ gem_test_insample<- function(dat, gemObject)
 
 	result <- list(
 		"PAB_gem" = PAB_gem,
-		"PAB_unres" = PAB_unres)
+		"PAB_unres" = PAB_unres,
+		"opt_gem" = optTrt_gem[,2])
 	return(result)
 	
 }
@@ -97,7 +99,8 @@ gem_test_outsample <- function(y0, y1,XFrame, gemObject)
 
 	result <- list(
 		"PAB_gem" = PAB_gem,
-		"PAB_unres" = PAB_unres)
+		"PAB_unres" = PAB_unres,
+		"opt_gem" = optTrt_gem[,2])
 	return(result)
 	
 }
