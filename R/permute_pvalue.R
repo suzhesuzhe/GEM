@@ -2,16 +2,18 @@
 #' Permuted P Value Calculation
 #' @name permute_pvalue
 #' 
-#' @description Calculation of permuted p value for a fitted GEM.
+#' @description Calculates the permuted p-value for a fitted GEM. See more detail in \cite{E Petkova, T Tarpey, Z Su, and RT Ogden. Generated effect modifiers (GEMs) in randomized clinical trials. Biostatistics, (First published online: July 27, 2016). doi: 10.1093/biostatistics/kxw035.}
 #'
-#' @param dat Dataframe with first column as the treatment index, second column as response, and the 
+#'
+#' @param dat Data frame with first column as the treatment index, second column as outcome, and the 
 #' remaining columns as covariates design matrix. 
-#' @param method Choice of criterior on which the GEM is based. This can be a string in 
-#' \code{c("nu","de","F")}, which corresponde to the numerator, denominator and F-statistics
+#' @param method Choice of criterion for estimating the GEM. This can be a string in 
+#' \code{c("nu","de","F")}, which correspond to the numerator, denominator and F-statistics
 #' methods respectively. The default method is the F-statistics method.
 #' 
 #' 
-#' @return \code{eff_size} the calculated permuted p value for the data and choosen criterior 
+#' @return \code{perm_p} Permuted p-value for the data and choosen criterior 
+#' @return \code{p} A vector of calculated p-value for the original and permuted data set under the choosen criterior 
 #' 
 #' 
 #' @examples
@@ -19,10 +21,11 @@
 #' co <- matrix(0.2, 10, 10)
 #' diag(co) <- 1
 #' #simulate a data set
-#' dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, co = co, beta1 = rep(1,10),inter = c(0,0))
+#' dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000,
+#'                         co = co, beta1 = rep(1,10),inter = c(0,0))
 #' #calculate the permuted p value
 #' dat <- dataEx[[1]]
-#' pvalue_permuteCpp(dat,method = "nu")
+#' permute_pvalue(dat,method = "nu")
 #' @export
 
 
@@ -32,7 +35,7 @@ permute_pvalue <- function(dat,method = "F")
     colnames(dat)[1] <- "trt"
 	K <- length(unique(dat$trt))
     dat[,1] <- factor(dat[,1],labels=c(1:K))
-    N <- ddply(dat, .(trt), nrow)[,2]
+    N <- ddply(dat, .(dat$trt), nrow)[,2]
     mm <- gem_fit(dat,method)
     p <- mm[[3]]
   
@@ -44,7 +47,7 @@ permute_pvalue <- function(dat,method = "F")
         p <- c(p, mmm[[3]])        
     }
     p_value <- sum(p[2:1001] <= p[1])/1000
-    return(list("pvalue"=p_value,
+    return(list("perm_p"=p_value,
     	         "p"=p))
     
 }

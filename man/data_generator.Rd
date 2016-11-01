@@ -5,11 +5,11 @@
 \alias{data_generator1}
 \alias{data_generator2}
 \alias{data_generator3}
-\title{Functions for Simulating Data Set}
+\title{Functions for Simulating Data}
 \usage{
 data_generator1(d, R2, v2, n, co, beta1, inter)
 
-data_generator2(n, co, r, bet, inter)
+data_generator2(n, co, R2, bet, inter)
 
 data_generator3(n, co, bet, inter)
 }
@@ -20,72 +20,73 @@ data_generator3(n, co, bet, inter)
 
 \item{v2}{A scalar indicating the proportion of explained variance \eqn{R^2} for the first treatment group}
 
-\item{n}{A scalar indicating the number of observation for each treatment group, we assume two treatment group have same observations}
+\item{n}{A scalar indicating the number of observation for each treatment group, we assume that the two treatment groups have same number of observations}
 
-\item{co}{A p by p positive semidefinite matrix indicating the covariance structure of covariates}
+\item{co}{A \emph{p} by \emph{p} positive semidefinite matrix indicating the covariance structure of the covariates}
 
-\item{beta1}{A vector of length p recording covariate coefficients for the first treatment group}
+\item{beta1}{A vector of length \emph{p} giving the regression coefficients for the first treatment group}
 
-\item{inter}{A vector of length 2 recording the intercept \eqn{a_1,a_2} for two treatment groups respectively}
+\item{inter}{A vector of length 2 recording the intercept \eqn{\beta_{10},\beta_{20}} for the two treatment groups respectively}
 
-\item{bet}{A two element list of legnth p vectors recording covariate coefficients for two treatment groups respectively}
+\item{bet}{A list with two elements, each a vector of length \emph{p}, giving the regression coefficients for the two treatment groups respectively}
 }
 \value{
-Output of these two functions for the data generator under Gem case is not the same,
-and you can find explanation for each of them in the following:
+The output from these functions are different:
 
 For the function \code{data_generator1}
 \enumerate{
-		\item \code{dat} A dataframe with first and second column as treatment group index	and response respectively,
+		\item \code{dat} A data frame with first and second column as treatment group index and outcome respectively,
   and each of the remaining columns as a covariate.
-		\item \code{bet} A two elements list of length p vectors recording covariate coefficients for two treatment group respectively
+		\item \code{bet} A list with two elements, each a vector of length \eqn{p}, giving the regression coefficients for the two treatment group respectively
 		\item \code{error_12} A vector of length three represeting the standard deviation of \eqn{\epsilon}, the explained variance by the linear part for the first 
   and second treatment group respectively. 
 }
 
 For the function \code{data_generator2}
 \enumerate{
-  \item \code{dat} A dataframe with first and second column as treatment group index	and response respectively,
+  \item \code{dat} A data frame with first and second column as treatment group index and outcome respectively,
   and each of the remaining columns as a covariate.
-		\item \code{bet} A two elements list of length p vectors recording covariate coefficients for two treatment group respectively
+		\item \code{bet}  list with two elements, each a vector of length \eqn{p}, giving the regression coefficients for the two treatment group respectively
 		\item \code{error} A scalar represeting the standard deviation of \eqn{\epsilon} 
 }
 
 For the function \code{data_generator3}
 \enumerate{
-		\item \code{y0} Response for each observation under the first treatment assignment
-		\item \code{y1} Response for each observation under the second treatment assignment
+		\item \code{y0} Outcome vector under the first treatment assignment
+		\item \code{y1} Outcome vector under the second treatment assignment
 		\item \code{X} Design matrix for the covariates 
-		\item \code{oracle} Average of the response if each observation take the optimal treatment assignment
-		\item \code{invOracle} Average of the response if each observation not to take the optimal treatment assignment
+		\item \code{oracle} Average of the outcome if each subject takes the optimal treatment assignment
+		\item \code{invOracle} Average of the outcome if each subject does not take the optimal treatment assignment
 }
 }
 \description{
-When investigating properties of GEM, following three data generators are widely used in various simulations. 
-They are aimed at constructing three specific types of data set for only two treatment groups.
+When investigating properties of GEM, following three data generators are used in various simulations. 
+They are aimed at constructing three specific types of data sets for only two treatment groups. See more detail in 
+\cite{E Petkova, T Tarpey, Z Su, and RT Ogden. Generated effect modifiers (GEMs) in randomized clinical trials. Biostatistics, (First published online: July 27, 2016). doi: 10.1093/biostatistics/kxw035.}
 }
 \details{
-The first data generator is used to create a data where the response is a linear model of the covariates \deqn{y_i = a_i + X\beta_i + \epsilon, i = 1,2}  
-and the coffcicients of covariates \eqn{\beta} are proportional between two treatment groups: \eqn{\beta_2 = s*\beta_1}. 
-This type of data set matches perfectly with the motivation of GEM algorithm. \eqn{\beta_1} is set as an argument of the function while\eqn{\beta_2 = s*\beta_1}
-is derived by controling R squared of the whole data and the effect size (see Kraemer, Helena Chmura. "Discovering, comparing, 
-and combining moderators of treatment on outcome after randomized clinical trials: a parametric approach." Statistics in medicine 32.11 (2013): 1964-1973.)
+The first data generator is used to create data where the outcome is a linear function of the covariates \deqn{y_i = a_i + X\beta_i + \epsilon, i = 1, 2, }  
+and the coffcicients of covariates \eqn{\beta} are proportional between two treatment groups: \eqn{\beta_2 = s * \beta_1}. 
+This type of data set matches perfectly with the motivation of GEM algorithm. \eqn{\beta_1} is set as an argument of the function while \eqn{\beta_2 = s * \beta_1}
+is derived by controling \eqn{R^2} of the whole data and the effect size. See more detail in \cite{Kraemer, H. C. (2013). Discovering, comparing, and combining moderators of treatment 
+on outcome after randomized clinical trials: a parametric approach. Statistics in medicine, 32(11), 1964-1973.}
 
-The second data generator similar to the first one except that the coefficients of covariates are not necessarily proportional. Hence two \eqn{\beta}'s 
-should be specified as argument of function.
+The second data generator is similar to the first one except that the coefficients of the covariates are not necessarily proportional. Hence two \eqn{\bold{\beta}}'s 
+should be specified as arguments of the function.
 
-The third data generator is aimed at constructing testing data set for a trained GEM model. This data generator is similar to data generator2 
-except that  the linear model has no error term \deqn{y_i = a_i + X\beta_i, i = 1,2}.
+The third data generator constructs a data set where the outcome under each treatment condition is given for all subjects. In addition, no error is added to the mean outcome.
+This generator is useful for obtaining the "true" value of a treatment decision. This data generator is similar to data generator2 \deqn{y_i = a_i + X\beta_i, i = 1,2.}
 }
 \examples{
 #constructing the covariance matrix
 co <- matrix(0.2, 30, 30)
 diag(co) <- 1
-dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, co = co, beta1 = rep(1,30),inter = c(0,0))
+dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, 
+                           co = co, beta1 = rep(1,30),inter = c(0,0))
 #check the R squared of the simluated data set
 dat <- dataEx[[1]]
-summary(lm(V2~factor(trt)*(V3+V4+V5+V6+V7+V8+V9+V10+V11+V12
-+V13+V14+V15+V16+V17+V18+V19+V20+V21+V22+V23+V24+V25+V26+V27+V28+V29+V30+V31+V32),data=dat))
+summary(lm(V2~factor(trt)*(V3+V4+V5+V6+V7+V8+V9+V10+V11+V12+V13+V14+V15+V16+
+V17+V18+V19+V20+V21+V22+V23+V24+V25+V26+V27+V28+V29+V30+V31+V32),data=dat))
 
 bigData <- data_generator3(n = 10000,co = co,bet =dataEx[[2]], inter = c(0,0))
 }

@@ -7,7 +7,7 @@
 gem_fit(dat, method = "F")
 }
 \arguments{
-\item{dat}{Dataframe with first column as the treatment index, second column as response, and the 
+\item{dat}{Data frame with first column as the treatment index, second column as outcome, and the 
 remaining columns as covariates design matrix.}
 
 \item{method}{Choice of criterior on which the GEM is based. This can be a string in 
@@ -16,24 +16,25 @@ methods respectively. The default method is the F-statistics method.}
 }
 \value{
 \enumerate{
-		\item \code{method} A indicator showing which method is used for fitting the GEM 
-		\item \code{gemObject} The calculated weight for combining the covariates
-		\item \code{p_value} The p value for the interaction term in model \eqn{Y  = a + trt + Z + trt*Z + \epsilon}
-		\item \code{Augmented_Data} Input dat attached with the combined moderator at last column 
-		\item \code{effect.size} The effect size of the combined moderator if there are only two treatment groups
-		\item \code{plot} A scatter plot of Y versus combined moderator Z with fitted line and grouped by treatment
+		\item \code{method} An indicator for which method should be used for fitting the GEM 
+		\item \code{gemObject} The calculated weights for combining the covariates
+		\item \code{p_value} The p-value for the interaction term in model \eqn{Y  = a + trt + Z + trt*Z + \epsilon}
+		\item \code{Augmented_Data} The input data argumented with the combined moderator as the last column 
+		\item \code{effect.size} The effect size of the GEM if there are only two treatment groups
+		\item \code{plot} A scatter plot of Y versus the GEM Z with fitted lines and grouped by treatment
 		
 }
 }
 \description{
-The main algorithm in GEM package for calculating the weight of covariates
-to generate a combined moderator.
+The main algorithm in GEM package for calculating the coefficients of the linear combination of the covariates
+to generate a GEM. See more detail in \cite{E Petkova, T Tarpey, Z Su, and RT Ogden. Generated effect modifiers (GEMs) in randomized clinical trials. Biostatistics, (First published online: July 27, 2016). doi: 10.1093/biostatistics/kxw035.}
 }
 \examples{
 #constructing the covariance matrix
 co <- matrix(0.2, 10, 10)
 diag(co) <- 1
-dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000, co = co, beta1 = rep(1,10),inter = c(0,0))
+dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000,
+                        co = co, beta1 = rep(1,10),inter = c(0,0))
 #fit the GEM
 dat <- dataEx[[1]]
 model_nu <- gem_fit(dat = dat, method = "nu")
