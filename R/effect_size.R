@@ -4,9 +4,9 @@
 #' @description Calculates the effect size of a moderator when there are only two treatment groups. More details please see:
 #' \cite{Kraemer, H. C. (2013). Discovering, comparing, and combining moderators of treatment on outcome after randomized clinical trials: a parametric approach. Statistics in medicine, 32(11), 1964-1973.}
 #'
-#' @param response A vector recording outcome for all subjects
-#' @param treatment A vector recording the treatment group index for all subjects
-#' @param moderator A vector recording the single moderator
+#' @param response A vector giving the outcome for all subjects
+#' @param treatment A vector giving the treatment group index for all subjects
+#' @param moderator A vector giving the moderator
 #'
 #' @return \code{eff_size} the calculated effect size for the moderator 
 #' 

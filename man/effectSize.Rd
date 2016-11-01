@@ -7,11 +7,11 @@
 effectSize(response, treatment, moderator)
 }
 \arguments{
-\item{response}{A vector recording outcome for all subjects}
+\item{response}{A vector giving the outcome for all subjects}
 
-\item{treatment}{A vector recording the treatment group index for all subjects}
+\item{treatment}{A vector giving the treatment group index for all subjects}
 
-\item{moderator}{A vector recording the single moderator}
+\item{moderator}{A vector giving the moderator}
 }
 \value{
 \code{eff_size} the calculated effect size for the moderator

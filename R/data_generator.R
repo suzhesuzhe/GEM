@@ -1,31 +1,31 @@
 #' Functions for Simulating Data 
 #' @import MASS
 #' 
-#' @description When investigating properties of GEM, following three data generators are used in various simulations. 
-#' They are aimed at constructing three specific types of data sets for only two treatment groups. See more detail in 
+#' @description When investigating the properties of GEM, the following three data generators are used in various simulations. 
+#' They are designed to construct three specific types of data sets in the case of two treatment groups. See more detail in 
 #' \cite{E Petkova, T Tarpey, Z Su, and RT Ogden. Generated effect modifiers (GEMs) in randomized clinical trials. Biostatistics, (First published online: July 27, 2016). doi: 10.1093/biostatistics/kxw035.}
 #'
 #' 
-#' @param d A scalar indicating the effect size 
+#' @param d A scalar indicating the effect size of the GEM when the data is generated under a GEM model 
 #' @param R2 A scalar indicating the proportion of explained variance \eqn{R^2} for the entire data set
 #' @param v2 A scalar indicating the proportion of explained variance \eqn{R^2} for the first treatment group
-#' @param n A scalar indicating the number of observation for each treatment group, we assume that the two treatment groups have same number of observations
-#' @param co A \emph{p} by \emph{p} positive semidefinite matrix indicating the covariance structure of the covariates
+#' @param n A scalar indicating the number of observation in each treatment group, assumed to be the same.
+#' @param co A \emph{p} by \emph{p} positive semidefinite matrix indicating the covariance matrix of the covariates
 #' @param beta1 A vector of length \emph{p} giving the regression coefficients for the first treatment group
 #' @param bet A list with two elements, each a vector of length \emph{p}, giving the regression coefficients for the two treatment groups respectively
-#' @param inter A vector of length 2 recording the intercept \eqn{\beta_{10},\beta_{20}} for the two treatment groups respectively
+#' @param inter A vector of length 2 recording the intercepts \eqn{\beta_{10},\beta_{20}} for the two treatment groups respectively
 #' 
-#' @details The first data generator is used to create data where the outcome is a linear function of the covariates \deqn{y_i = a_i + X\beta_i + \epsilon, i = 1, 2, }  
-#' and the coffcicients of covariates \eqn{\beta} are proportional between two treatment groups: \eqn{\beta_2 = s * \beta_1}. 
-#' This type of data set matches perfectly with the motivation of GEM algorithm. \eqn{\beta_1} is set as an argument of the function while \eqn{\beta_2 = s * \beta_1}
+#' @details \code{data_generator1} is used to create data where the outcome is a linear function of the covariates \deqn{y_j = \beta_{j0} + X\beta_j + \epsilon, j = 1, 2, }  
+#' and the coffcicients of covariates \eqn{\beta} are proportional between two treatment groups: \eqn{\beta_2 = b * \beta_1}. 
+#' This type of data set matches perfectly with the motivation of GEM algorithm. \eqn{\beta_1} is set as an argument of the function while \eqn{\beta_2 = b * \beta_1}
 #' is derived by controling \eqn{R^2} of the whole data and the effect size. See more detail in \cite{Kraemer, H. C. (2013). Discovering, comparing, and combining moderators of treatment 
 #' on outcome after randomized clinical trials: a parametric approach. Statistics in medicine, 32(11), 1964-1973.}
 #'
-#' The second data generator is similar to the first one except that the coefficients of the covariates are not necessarily proportional. Hence two \eqn{\bold{\beta}}'s 
+#' \code{data_generator2} is similar to the first one except that the coefficients of the covariates are not necessarily proportional. Hence two \eqn{\bold{\beta}}'s 
 #' should be specified as arguments of the function.
 #' 
-#' The third data generator constructs a data set where the outcome under each treatment condition is given for all subjects. In addition, no error is added to the mean outcome.
-#' This generator is useful for obtaining the "true" value of a treatment decision. This data generator is similar to data generator2 \deqn{y_i = a_i + X\beta_i, i = 1,2.}
+#' \code{data_generator3} constructs a data set where the outcome under each treatment condition is given for all subjects. In addition, no error is added to the mean outcome.
+#' This generator is useful for obtaining the "true" value of a treatment decision. This data generator is similar to data generator2 \deqn{y_j = \beta_{j0} + X\beta_j, j = 1,2.}
 #'
 #' @return The output from these functions are different:
 #' 
@@ -33,7 +33,7 @@
 #' \enumerate{
 #' 		\item \code{dat} A data frame with first and second column as treatment group index and outcome respectively,
 #'   and each of the remaining columns as a covariate.
-#' 		\item \code{bet} A list with two elements, each a vector of length \eqn{p}, giving the regression coefficients for the two treatment group respectively
+#' 		\item \code{bet} A list with two elements, each a vector of length \eqn{p}, giving the regression coefficients for the two treatment groups respectively
 #' 		\item \code{error_12} A vector of length three represeting the standard deviation of \eqn{\epsilon}, the explained variance by the linear part for the first 
 #'   and second treatment group respectively. 
 #' }
@@ -42,7 +42,7 @@
 #' \enumerate{
 #'   \item \code{dat} A data frame with first and second column as treatment group index and outcome respectively,
 #'   and each of the remaining columns as a covariate.
-#' 		\item \code{bet}  list with two elements, each a vector of length \eqn{p}, giving the regression coefficients for the two treatment group respectively
+#' 		\item \code{bet}  list with two elements, each a vector of length \eqn{p}, giving the regression coefficients for the two treatment groups respectively
 #' 		\item \code{error} A scalar represeting the standard deviation of \eqn{\epsilon} 
 #' }
 #'

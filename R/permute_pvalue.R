@@ -1,18 +1,19 @@
 
-#' Permuted P Value Calculation
+#' Calculation of permutation p-value 
 #' @name permute_pvalue
 #' 
-#' @description Calculates the permuted p-value for a fitted GEM. See more detail in \cite{E Petkova, T Tarpey, Z Su, and RT Ogden. Generated effect modifiers (GEMs) in randomized clinical trials. Biostatistics, (First published online: July 27, 2016). doi: 10.1093/biostatistics/kxw035.}
+#' @description Calculates the permutation p-value for a fitted GEM. See more detail in \cite{E Petkova, T Tarpey, Z Su, and RT Ogden. Generated effect modifiers (GEMs) in randomized clinical trials. Biostatistics, (First published online: July 27, 2016). doi: 10.1093/biostatistics/kxw035.}
 #'
 #'
-#' @param dat Data frame with first column as the treatment index, second column as outcome, and the 
-#' remaining columns as covariates design matrix. 
-#' @param method Choice of criterion for estimating the GEM. This can be a string in 
-#' \code{c("nu","de","F")}, which correspond to the numerator, denominator and F-statistics
-#' methods respectively. The default method is the F-statistics method.
+#' @param dat Data frame with first column as the treatment index, second column as the outcome, and the 
+#' remaining columns as the covariates design matrix. The elements of the treatment index take \eqn{K} distinct values, where \eqn{K} is the number of treatment groups. 
+#' The outcome has to be a continuous variable.
+#' @param method Choice of the criterion that the generated effect modifier optimizes. This is a string in 
+#' \code{c("nu","de","F")}, which corresponde to the numerator, denominator and F-statistics
+#' criteria respectively. The default method is the F-statistics method.
 #' 
 #' 
-#' @return \code{perm_p} Permuted p-value for the data and choosen criterior 
+#' @return \code{perm_p} Permutation p-value for the data and choosen criterior 
 #' @return \code{p} A vector of calculated p-value for the original and permuted data set under the choosen criterior 
 #' 
 #' 
