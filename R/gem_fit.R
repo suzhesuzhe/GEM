@@ -51,7 +51,7 @@ gem_fit <- function(dat, method = "F")
        
        mod <- fastLm(y~factor(trt)*Z,dat = dat)
        p_value <- summary(mod)[[2]][4,4]
-       p <- ggplot(dat, aes_string(x = "Z", y = "y", group = factor("trt"), color = factor("trt")))+
+       p <- ggplot(dat, aes(x = Z, y = y, group = factor(trt), color = factor(trt)))+
 		       geom_point() + geom_smooth(method="lm",fullrange = T) 
         if ( k==2)
         {
