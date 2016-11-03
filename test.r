@@ -3,7 +3,7 @@ require(devtools)
 
 devtools::install_github(repo = "suzhesuzhe/GEM",force =T)
 
-require(GEM)
+require(pirate)
 
 packageDescription("GEM")
 
@@ -44,6 +44,6 @@ permute_pvalue(dat = dat,method = "nu")
 
 
 #to see all the functions in GEM package
-ls(envir=as.environment("package:GEM"))
+ls(envir=as.environment("package:pirate"))
 
 
