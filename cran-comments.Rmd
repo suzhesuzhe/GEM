@@ -1,12 +1,16 @@
 ---
-title: "cran-comments"
-author: "Zhe Su"
-date: "11/3/2016"
-output: md_document
+output: 
+  md_document:
+    variant: markdown_github
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, echo = F}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+	
+	
+)
 ```
 
 ## Test environments

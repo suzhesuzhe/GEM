@@ -1,0 +1,18 @@
+---
+output: 
+  md_document:
+    variant: markdown_github
+---
+```{r, echo = F}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+	
+	
+)
+```
+
+## pirate 1.0.0
+
+This is a newly released package.
