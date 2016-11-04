@@ -4,7 +4,7 @@
 #' @import plyr
 #' @import ggplot2
 #' @import RcppArmadillo
-#' @useDynLib GEM
+#' @useDynLib pirate
 #' @importFrom Rcpp sourceCpp
 #' 
 #' @description The main algorithm in \bold{pirate} package for calculating the coefficients of the linear combination of the covariates
