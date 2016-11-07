@@ -5,14 +5,14 @@ devtools::install_github(repo = "suzhesuzhe/GEM",force =T)
 
 require(pirate)
 
-packageDescription("GEM")
+packageDescription("pirate")
 
 #covariance matrix, 10 predictors
 co <- matrix(0.2, 10, 10)
 diag(co) <- 1
 
 #simulate gem type data
-dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 300, co = co, beta1 = rep(1,10),inter = c(0,0))
+dataEx <- data_generator1(d = 0.2, R2 = 0.3, v2 = 1, n = 300, co = co, beta1 = rep(1,10),inter = c(0,0))
 
 #extract the dataframe
 dat <- dataEx[[1]]
@@ -40,10 +40,10 @@ gem_test_simsample(bigData[[1]],bigData[[2]],bigData[[3]],model[[2]])
 
 
 #calculate the permuted p value
-permute_pvalue(dat = dat,method = "nu")
+permute_pvalue(dat = dat, permuteN = 200, method = "nu")
 
 
 #to see all the functions in GEM package
-ls(envir=as.environment("package:pirate"))
+ls(envir=as.environment("package:stats"))
 
 

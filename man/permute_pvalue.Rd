@@ -4,12 +4,14 @@
 \alias{permute_pvalue}
 \title{Calculation of permutation p-value}
 \usage{
-permute_pvalue(dat, method = "F")
+permute_pvalue(dat, permuteN, method = "F")
 }
 \arguments{
 \item{dat}{Data frame with first column as the treatment index, second column as the outcome, and the 
 remaining columns as the covariates design matrix. The elements of the treatment index take \eqn{K} distinct values, where \eqn{K} is the number of treatment groups. 
 The outcome has to be a continuous variable.}
+
+\item{permuteN}{Number of permutation}
 
 \item{method}{Choice of the criterion that the generated effect modifier optimizes. This is a string in 
 \code{c("nu","de","F")}, which corresponde to the numerator, denominator and F-statistics
@@ -28,10 +30,10 @@ Calculates the permutation p-value for a fitted GEM. See more detail in \cite{E 
 co <- matrix(0.2, 10, 10)
 diag(co) <- 1
 #simulate a data set
-dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000,
+dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 300,
                         co = co, beta1 = rep(1,10),inter = c(0,0))
 #calculate the permuted p value
 dat <- dataEx[[1]]
-permute_pvalue(dat,method = "nu")
+permute_pvalue(dat, permuteN = 200, method = "nu")
 }
 

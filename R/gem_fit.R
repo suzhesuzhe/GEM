@@ -3,9 +3,10 @@
 #' @name gem_fit
 #' @import plyr
 #' @import ggplot2
-#' @import RcppArmadillo
 #' @useDynLib pirate
-#' @importFrom Rcpp sourceCpp
+#' @importFrom Rcpp sourceCpp 
+#' @importFrom stats lm rnorm
+#' @importFrom RcppArmadillo fastLm
 #' 
 #' @description The main algorithm in \bold{pirate} package for calculating the coefficients of the linear combination of the covariates
 #' to generate a GEM. This function can be applied to data sets with more than two treatment groups.
@@ -38,7 +39,7 @@
 #' #constructing the covariance matrix
 #' co <- matrix(0.2, 10, 10)
 #' diag(co) <- 1
-#' dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 3000,
+#' dataEx <- data_generator1(d = 0.3, R2 = 0.5, v2 = 1, n = 300,
 #'                         co = co, beta1 = rep(1,10),inter = c(0,0))
 #' #fit the GEM
 #' dat <- dataEx[[1]]
@@ -57,7 +58,8 @@ gem_fit <- function(dat, method = "F")
        
        mod <- fastLm(y~factor(trt)*Z,dat = dat)
        p_value <- summary(mod)[[2]][4,4]
-       p <- ggplot(dat, aes(x = Z, y = y, group = factor(trt), color = factor(trt)))+
+       dat$trt <- factor(dat$trt)
+       p <- ggplot(dat, aes_string(x = "Z", y = "y", group = "trt", color = "trt"))+
 		       geom_point() + geom_smooth(method="lm",fullrange = T) 
         if ( k==2)
         {

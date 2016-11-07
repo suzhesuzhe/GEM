@@ -10,16 +10,6 @@ R CMD check results
 
 0 errors | 0 warnings | 1 note
 
--   checking R code for possible problems ... NOTE
-
--   `gem_fit`: no visible binding for global variable ‘Z’
-
--   `gem_fit`: no visible binding for global variable ‘y’
-
--   `gem_fit`: no visible binding for global variable ‘trt’
-
--   Undefined global functions or variables: Z trt y
-
 Reverse dependencies
 --------------------
 
