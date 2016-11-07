@@ -49,7 +49,7 @@ Usage
     You could get the permutation p-value of the GEM model by:
 
     ``` r
-    permute_pvalue(dat,method = "nu")
+    permute_pvalue(dat, permuteN = 1000, method = "nu")
     ```
 
 -   For simulating data set, please refer to the 'data\_generators' help page to get detailed information about each data generator.
