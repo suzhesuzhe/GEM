@@ -34,7 +34,6 @@ List gemCpp (List dList, CharacterVector met){
     }
 	arma::mat Beta = beta.cols(1,(beta.n_cols-1));
 	arma::vec pro = N/sum(N);
-    arma::vec pro1 = (N-1)/sum(N);
 	arma::mat xMean = mean(xFrame);
 	arma::mat co = cov(xFrame);
     arma::vec eigval;
@@ -48,9 +47,9 @@ List gemCpp (List dList, CharacterVector met){
     arma::mat A = arma::zeros(Beta.n_cols,Beta.n_cols);
 	for(int i=0; i<k; i++) {     
          B = B + pro(i) * (Beta.row(i)-Beta_bar).t() * (Beta.row(i)-Beta_bar);
-         D = D + pro1(i) * Beta.row(i).t() * Beta.row(i);
+         D = D + pro(i) * Beta.row(i).t() * Beta.row(i);
 		 arma::mat temp;  temp.eye(size(A));
-		 A = A + temp * (varY(i) * (N(i)-1)/sum(N));
+		 A = A + temp * varY(i) * pro(i);
 	}
 	A = A - sqrtco * D * sqrtco;
 	arma::mat astar;
